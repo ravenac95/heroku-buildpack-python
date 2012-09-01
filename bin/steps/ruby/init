@@ -1,28 +1,32 @@
 #!/bin/bash
 
-BUNDLER_VERSION=1.2.0
-BUNDLER_GEM_PATH=bundler-$BUNDLER_VERSION
-VENDOR_URL=https://s3.amazonaws.com/heroku-buildpack-ruby
+BUNDLER_VERSION="1.2.0"
+BUNDLER_GEM_PATH="bundler-$BUNDLER_VERSION"
+VENDOR_URL="https://s3.amazonaws.com/heroku-buildpack-ruby"
 BUNDLER_TMP_DIR=`mktemp -d`
 GEM_PATH=$BUNDLER_TMP_DIR
-GEM_HOME=/app/.appgems
-BUNDLER_BIN=$BUNDLER_TMP_DIR/bin/bundle
-VENV_BIN=/app/venv/bin
+GEM_HOME="$BUILD_DIR/.appgems"
+BUNDLER_BIN="$BUNDLER_TMP_DIR/bin/bundle"
+VENV_BIN="$VIRTUALENV_LOC/bin"
 
 function puts-step (){
     echo "-----> $@"
 }
 
 function bootstrap_bundler () {
-    prev_dir=`pwd`
+    current_dir=`pwd`
+
+    if [ ! -d $GEM_PATH ]; then
+        mkdir $GEM_PATH
+    fi
+    
+    if [ ! -d "$GEM_HOME" ]; then
+        mkdir $GEM_HOME
+    fi
 
     cd $BUNDLER_TMP_DIR
 
     echo $BUNDLER_TMP_DIR
-
-    if [ -d "$GEM_HOME" ]; then
-        mkdir $GEM_HOME
-    fi
 
     curl $VENDOR_URL/$BUNDLER_GEM_PATH.tgz -s -o - | tar xzf -
 
@@ -34,11 +38,12 @@ function bundle () {
     ruby "$BUNDLER_BIN" "$@"
 }
 
+
 # Setup Bundler
 puts-step "Setting up bundler to install any Gemfiles"
 bootstrap_bundler
 
 # Install if gemfile exists
-if [ -e "/app/Gemfile" ]; then
+if [ -e "$BUILD_DIR/Gemfile" ]; then
     bundle install --binstubs=$VENV_BIN
 fi
