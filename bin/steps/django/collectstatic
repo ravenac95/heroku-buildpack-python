@@ -10,9 +10,8 @@ indent() {
 
 PRE_COLLECTSTATIC_SCRIPT_PATH="$BUILD_DIR/scripts/pre-collectstatic"
 
-
 # Check if there's a pre-collectstatic script
-if [ -e "pre-collectstatic" ]; then
+if [ -e $PRE_COLLECTSTATIC_SCRIPT_PATH ]; then
     echo "-----> Running pre-collectstatic script"
     source $PRE_COLLECTSTATIC_SCRIPT_PATH
 fi
