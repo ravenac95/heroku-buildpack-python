@@ -50,5 +50,5 @@ bootstrap_bundler
 # Install if gemfile exists
 if [ -e "$BUILD_DIR/Gemfile" ]; then
     puts-step "Installing using Gemfile"
-    bundle install --binstubs=$VENV_BIN
+    bundle install --binstubs=$VENV_BIN | indent
 fi
