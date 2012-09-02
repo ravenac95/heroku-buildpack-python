@@ -9,6 +9,9 @@ GEM_HOME="$BUILD_DIR/.appgems"
 BUNDLER_BIN="$BUNDLER_TMP_DIR/bin/bundle"
 VENV_BIN="$VIRTUALENV_LOC/bin"
 
+export GEM_PATH
+export GEM_HOME
+
 function puts-step (){
     echo "-----> $@"
 }
@@ -28,11 +31,9 @@ function bootstrap_bundler () {
 
     cd $BUNDLER_TMP_DIR
 
-    echo $BUNDLER_TMP_DIR
-
     curl $VENDOR_URL/$BUNDLER_GEM_PATH.tgz -s -o - | tar xzf -
 
-    cd $prev_dir
+    cd $current_dir
 }
 
 # Bundler wrapper
@@ -45,7 +46,9 @@ function bundle () {
 puts-step "Setting up bundler to install any Gemfiles"
 bootstrap_bundler
 
+
 # Install if gemfile exists
 if [ -e "$BUILD_DIR/Gemfile" ]; then
+    puts-step "Installing using Gemfile"
     bundle install --binstubs=$VENV_BIN
 fi
