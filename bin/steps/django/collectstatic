@@ -13,6 +13,7 @@ PRE_COLLECTSTATIC_SCRIPT_PATH="$BUILD_DIR/scripts/pre-collectstatic"
 
 # Check if there's a pre-collectstatic script
 if [ -e "pre-collectstatic" ]; then
+    echo "-----> Running pre-collectstatic script"
     source $PRE_COLLECTSTATIC_SCRIPT_PATH
 fi
 
