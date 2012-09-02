@@ -9,8 +9,6 @@ GEM_HOME="$BUILD_DIR/.appgems"
 BUNDLER_BIN="$BUNDLER_TMP_DIR/bin/bundle"
 VENV_BIN="$VIRTUALENV_LOC/bin"
 
-export GEM_PATH
-export GEM_HOME
 
 function puts-step (){
     echo "-----> $@"
