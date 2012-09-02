@@ -8,6 +8,13 @@ indent() {
   [ $(uname) == "Darwin" ] && sed -l "$RE" || sed -u "$RE"
 }
 
+PRE_COLLECTSTATIC_SCRIPT_PATH="$BUILD_DIR/scripts/pre-collectstatic"
+
+
+# Check if there's a pre-collectstatic script
+if [ -e "pre-collectstatic" ]; then
+    source $PRE_COLLECTSTATIC_SCRIPT_PATH
+fi
 
 # Check if collectstatic is configured properly.
 python $MANAGE_FILE collectstatic --dry-run --noinput &> /dev/null && RUN_COLLECTSTATIC=true
