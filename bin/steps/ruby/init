@@ -17,10 +17,12 @@ function bootstrap_bundler () {
     current_dir=`pwd`
 
     if [ ! -d $GEM_PATH ]; then
+        puts-step "Creating GEM_PATH @ $GEM_PATH"
         mkdir $GEM_PATH
     fi
     
     if [ ! -d "$GEM_HOME" ]; then
+        puts-step "Creating GEM_HOME @ $GEM_HOME"
         mkdir $GEM_HOME
     fi
 
